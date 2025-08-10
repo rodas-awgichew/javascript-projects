@@ -2,6 +2,7 @@ const form = document.querySelector(".quiz-form");
 const questions =  document.querySelectorAll(".question");
 const result = document.querySelector(".result");
 const correctAnswers = ['D','B','C','B','D'];
+const tryAgainBtn = document.querySelector(".try-again");
 
 form.addEventListener('submit', (e) =>{
     e.preventDefault();
@@ -34,10 +35,10 @@ result.firstChild.textContent = `Your Score is ${score}`;
 if(score===5) {
     
     result.firstChild.textContent = `CONGRADULATIONS`;
+    tryAgainBtn.classList.add('hide');
     
-    
-
 }
+scrollTo(0,0);
 
 
 });
