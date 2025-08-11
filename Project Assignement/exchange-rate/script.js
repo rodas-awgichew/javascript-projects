@@ -25,3 +25,12 @@ currency_two.addEventListener('change', calculate);
 amount_one.addEventListener('input', calculate);
 
 
+ // added event listener on swap button
+
+ swap.addEventListener('click', () =>{
+  const temp= currency_one.value;
+  currency_one.value =currency_two.value;
+  currency_two.value = temp;
+  calculate();
+})
+
