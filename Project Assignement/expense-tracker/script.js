@@ -14,41 +14,70 @@ const amount = document.getElementById('amount');
 //   {id:4 , text:'coffe', amount :120}
 // ]
 
-const localStorageTransactions = JSON.parse(
 
-);
-
-let transactions =localStorage.getItem('transactions') !== null ? localStorageTransactions : [];
+const localStorageTransactions = JSON.parse(localStorage.getItem('transactions'));
+let transactions = localStorageTransactions !== null ? localStorageTransactions : [];
 
 function generateId(){
-  // Youre code 
+  return Math.floor( Math.random() * 1000000 );
 }
 
 
-function addTransaction(e){
-  // your code 
+function addTransaction(e) {
+  e.preventDefault();
 
+  if (text.value.trim() === '' || amount.value.trim() === '') {
+    alert('Please add both text and amount');
+  } else {
+    const transaction = {
+      id: generateId(),
+      text: text.value,
+      amount: +amount.value  
+    };
+
+    transactions.push(transaction);
+    addTransactionDOM(transaction);
+    updateValues();
+    updateLocalStorage();
+
+    text.value = '';
+    amount.value = '';
+  }
+}
+
+function addTransactionDOM(transaction) {
+  const sign = transaction.amount < 0 ? '-' : '+';
+  const item = document.createElement('li');
+
+  item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+  item.innerHTML = `
+    ${transaction.text} <span>${sign}${Math.abs(transaction.amount)}</span>
+    <button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button>
+  `;
+
+  list.appendChild(item);
+}
+
+function updateValues() {
+  const amounts = transactions.map(t => t.amount);
+  const total = amounts.reduce((acc, val) => acc + val, 0).toFixed(2);
+  const income = amounts.filter(val => val > 0).reduce((acc, val) => acc + val, 0).toFixed(2);
+  const expense = (amounts.filter(val => val < 0).reduce((acc, val) => acc + val, 0) * -1).toFixed(2);
+
+  balance.innerText = `$${total}`;
+  incomes.innerText = `$${income}`;
+  expens.innerText = `$${expense}`;
+}
+
+function updateLocalStorage() {
   
 }
 
-function addTransactionDOM(transaction){
-  // your code
+function removeTransaction(id) {
+ 
 }
 
-function updatevalues(){
-  // your code
+function init() {
+ 
 }
 
-function updateLocalStorage(){
-  // your code
-}
-
-function removeTransaction(id){
-//  your code
-}
-
-function init(){
-  // your code 
-}
-
-// add event Listener
