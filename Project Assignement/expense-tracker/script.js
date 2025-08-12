@@ -70,14 +70,18 @@ function updateValues() {
 }
 
 function updateLocalStorage() {
-  
+  localStorage.setItem('transactions', JSON.stringify(transactions)); 
 }
 
 function removeTransaction(id) {
- 
+  transactions = transactions.filter(t => t.id !== id);
+  updateLocalStorage();
+  init();   
 }
 
 function init() {
- 
+  list.innerHTML = '';
+  transactions.forEach(addTransactionDOM);
+  updateValues(); 
 }
 
