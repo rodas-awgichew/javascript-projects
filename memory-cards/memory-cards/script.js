@@ -21,45 +21,75 @@ function toggleAddContainer(e) {
 showBtn.addEventListener('click', toggleAddContainer);
 
 
-function addCard(question, answer) {
-    const card= document.createElement('div');
-    card.classList.add('card');
-    card.innerHTML= ` 
-        <div class="inner-card">
-            <div class="inner-card-front">
-                <p>${question}</p> 
-                <div class="inner-card-back">
-                <p>${answer}</p> 
-                </div>
-            </div>`
-    cards.appendChild(card); 
-    updateLocalStorage(question, answer);
-}
 
 addCardBtn.addEventListener('click', () => {
-    const question= questionEl.value;
-    const answer= answerEl.value;
-    if (question.trim() && answer.trim()) {
-        
-        addCard(question, answer);
-        questionEl.value = '';
-        answerEl.value = '';
-        addContainer.classList.remove('show');
-    }
-    else {
-        alert('Please fill in both fields');
-    }
+  const question = questionEl.value.trim();
+  const answer = answerEl.value.trim();
 
+  if (question && answer) {
+    const newCard = {
+      id: Date.now(),
+      question,
+      answer
+    };
+
+    cards.push(newCard);
+    localStorage.setItem('memoryCards', JSON.stringify(cards));
+
+    renderCards(); 
+
+    questionEl.value = '';
+    answerEl.value = '';
+    addContainer.classList.remove('show');
+  } else {
+    alert('Please fill out both fields');
+  }
+});
+
+function renderCards() {
+  cardsContainer.innerHTML = '';
+
+  cards.forEach((cardData, index) => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    if (index === currentActiveCard) card.classList.add('active');
+
+    card.innerHTML = `
+      <div class="inner-card">
+        <div class="inner-card-front">
+          <p>${cardData.question}</p>
+        </div>
+        <div class="inner-card-back">
+          <p>${cardData.answer}</p>
+        </div>
+      </div>
+    `;
+
+    cardsContainer.appendChild(card);
+  });
+
+  currentCard(); 
 }
 
-
-);
-function updateLocalStorage(){
-
+function loadCardsFromStorage() {
+  const storedCards = JSON.parse(localStorage.getItem('memoryCards'));
+  if (storedCards) {
+    cards = storedCards;
+    renderCards();
+  }
 }
+
+window.onload = loadCardsFromStorage;
+
+
 
 function flipCard() { 
+
 }
+card.addEventListener('click', () => {
+  card.classList.toggle('show-answer');
+});
+
 
 function nextCard() { 
     if (currentActiveCard === cards.length - 1) {
@@ -80,7 +110,18 @@ function prevCard() {
 
     
  }
- function currentCard() { }
+ function currentCard() { }function currentCard() {
+  currentEl.innerText = `${currentActiveCard + 1}/${cards.length}`;
+
+  const allCards = document.querySelectorAll('.card');
+  allCards.forEach((card, index) => {
+    card.classList.remove('active');
+    if (index === currentActiveCard) {
+      card.classList.add('active');
+    }
+  });
+}
+
 
 function deleteCard(id) { }
 
