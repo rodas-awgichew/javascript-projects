@@ -65,10 +65,14 @@ function renderCards() {
       </div>
     `;
 
+    card.addEventListener('click', () => {
+      card.classList.toggle('show-answer');
+    });
+
     cardsContainer.appendChild(card);
   });
 
-  currentCard(); 
+  currentCard();
 }
 
 function loadCardsFromStorage() {
@@ -82,10 +86,6 @@ function loadCardsFromStorage() {
 window.onload = loadCardsFromStorage;
 
 
-
-function flipCard() { 
-
-}
 card.addEventListener('click', () => {
   card.classList.toggle('show-answer');
 });
@@ -100,6 +100,7 @@ function nextCard() {
     currentCard();
 
 }
+
 function prevCard() {
     if (currentActiveCard === 0) {
         currentActiveCard = cards.length - 1;
@@ -107,10 +108,10 @@ function prevCard() {
         currentActiveCard--;
     }
     currentCard();
-
-    
+ 
  }
- function currentCard() { }function currentCard() {
+
+ function currentCard() {
   currentEl.innerText = `${currentActiveCard + 1}/${cards.length}`;
 
   const allCards = document.querySelectorAll('.card');
