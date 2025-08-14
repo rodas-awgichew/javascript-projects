@@ -21,7 +21,7 @@ function toggleAddContainer(e) {
 showBtn.addEventListener('click', toggleAddContainer);
 
 hideBtn.addEventListener('click', ()=> {
-  addContainer.classList.remove('show;');
+  addContainer.classList.remove('show');
 })
 
 
@@ -52,12 +52,19 @@ addCardBtn.addEventListener('click', () => {
 
 function renderCards() {
   cardsContainer.innerHTML = '';
+  if (cards.length === 0) {
+    cardsContainer.innerHTML = '<p class="empty">No cards available. Add one!</p>';
+    currentEl.innerText = '0/0';
+    return;
+  }
+  
 
   cards.forEach((cardData, index) => {
     const card = document.createElement('div');
     card.classList.add('card');
     if (index === currentActiveCard) 
         card.classList.add('active');
+      
 
     card.innerHTML = `
       <div class="inner-card">
@@ -69,6 +76,7 @@ function renderCards() {
         </div>
       </div>
     `;
+    
 
     card.addEventListener('click', () => {
       card.classList.toggle('show-answer');
@@ -84,20 +92,24 @@ function loadCardsFromStorage() {
   const storedCards = JSON.parse(localStorage.getItem('memoryCards'));
   if (storedCards) {
     cards = storedCards;
-    renderCards();
   }
+  renderCards();
 }
 
 window.onload = loadCardsFromStorage;
 
 
 function nextCard() { 
-    if (currentActiveCard === cards.length - 1) {
-        // currentActiveCard = cards.length;
-    } else {
-        currentActiveCard++;
-    }
+  if (currentActiveCard < cards.length - 1) {
+    currentActiveCard++;
     currentCard();
+  }
+  else if (currentActiveCard === cards.length - 1) {
+    alert('You’re already on the last card!');
+  }
+  
+
+   
 
 }
 
