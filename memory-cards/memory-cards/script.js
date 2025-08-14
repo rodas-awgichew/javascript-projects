@@ -125,3 +125,13 @@ function prevCard() {
     }
   });
 };
+
+function clearAllCards() {
+  cards = [];
+  localStorage.removeItem('memoryCards');
+  renderCards();
+  currentEl.innerText = '0/0';
+}
+
+ 
+clearBtn.addEventListener('click', clearAllCards);
