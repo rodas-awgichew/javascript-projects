@@ -20,6 +20,10 @@ function toggleAddContainer(e) {
 }
 showBtn.addEventListener('click', toggleAddContainer);
 
+hideBtn.addEventListener('click', ()=> {
+  addContainer.classList.remove('show;');
+})
+
 
 
 addCardBtn.addEventListener('click', () => {
@@ -52,7 +56,8 @@ function renderCards() {
   cards.forEach((cardData, index) => {
     const card = document.createElement('div');
     card.classList.add('card');
-    if (index === currentActiveCard) card.classList.add('active');
+    if (index === currentActiveCard) 
+        card.classList.add('active');
 
     card.innerHTML = `
       <div class="inner-card">
@@ -86,14 +91,9 @@ function loadCardsFromStorage() {
 window.onload = loadCardsFromStorage;
 
 
-card.addEventListener('click', () => {
-  card.classList.toggle('show-answer');
-});
-
-
 function nextCard() { 
     if (currentActiveCard === cards.length - 1) {
-        currentActiveCard = 0;
+        // currentActiveCard = cards.length;
     } else {
         currentActiveCard++;
     }
@@ -101,15 +101,18 @@ function nextCard() {
 
 }
 
+nextBtn.addEventListener('click', nextCard);
+
 function prevCard() {
     if (currentActiveCard === 0) {
-        currentActiveCard = cards.length - 1;
+        currentActiveCard = 0;
     } else {
         currentActiveCard--;
     }
     currentCard();
  
  }
+ prevBtn.addEventListener('click', prevCard);
 
  function currentCard() {
   currentEl.innerText = `${currentActiveCard + 1}/${cards.length}`;
@@ -121,17 +124,4 @@ function prevCard() {
       card.classList.add('active');
     }
   });
-}
-
-
-function deleteCard(id) { }
-
-function saveCardsToStorage() {
- }
-function loadCardsFromStorage() { }
-
-function clearAllCards() { }
-function renderCard() {
-    
-
- };
+};
