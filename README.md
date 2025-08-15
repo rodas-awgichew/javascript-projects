@@ -26,7 +26,6 @@ An interactive quiz application that allows users to answer multiple choice ques
 - Display a series of quiz questions with multiple choice answers.
 - Track and display user score.
 - Show correct answers after submission.
-- Progress indicator for quiz completion.
 - Option to restart the quiz.
 
 ---
